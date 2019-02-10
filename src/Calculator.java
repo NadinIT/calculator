@@ -3,55 +3,84 @@
 import java.util.Scanner;
 
 class Calculator {
+    public static int calculate(int a, String op, int b) {
+
+        switch (op) {
+            case "+":
+                return a + b;
+            case "-":
+                return a - b;
+            case "*":
+                return a * b;
+            case "/":
+                return a / b;
+            default:
+                return 0;
+        }
+    }
+
+    public static int askForNumber(Scanner scanner, String msg) {
+        boolean stop = false;
+        do {
+            System.out.print(msg);
+            int a = scanner.nextInt();
+            if (a > 0 && a <= 10) {
+                return a;
+            }
+        } while (!stop);
+
+        return 0;
+    }
+
+    public static String askForOperation(Scanner scanner, String msg) {
+        do {
+            System.out.println(msg);
+            String op = scanner.next();
+            boolean valid = op.equalsIgnoreCase("+") || op.equalsIgnoreCase("-") || op.equalsIgnoreCase("*") || op.equalsIgnoreCase("/");
+
+            if (valid) {
+                return op;
+            }
+        } while (true);
+    }
+
+    public static String askForRomanNumeral(Scanner scanner, String msg) {
+        do {
+            System.out.println(msg);
+            String r = scanner.next();
+            int a = Number.romanToArabic(r);
+            if (a >= 0 && a <= 10) {
+                return r;
+            }
+        } while (true);
+
+    }
+
     public static void main(String[] args) {
-        Scanner myNum = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
+        System.out.println("Pick Number System: A for Arabic numbers and R for Roman numerals");
+        String numberSystem = scanner.next();
+        System.out.println("You picked " + numberSystem);
 
+        if (numberSystem.equalsIgnoreCase("A")) {
+            int a = askForNumber(scanner, "Enter first number (0-10): ");
+            String op = askForOperation(scanner, "Enter operation (+ - * /): ");
+            int b = askForNumber(scanner, "Enter second number (0-10): ");
+            System.out.println(a + op + b + "=" + calculate(a, op, b));
+        } else {
+            String romanNum1 = askForRomanNumeral(scanner, "Enter first Roman number (I - X)");
+            String op = askForOperation(scanner, "Enter operation (+ - * /): ");
+            String romanNum2 = askForRomanNumeral(scanner, "Enter second Roman number (I - X)");
 
-            System.out.println("Enter first number");
-            int num1 = 0;
-            int num2 = 0;
-            String operator;
-            boolean a = false;
-            while (a == false) {
-                num1 = myNum.nextInt();
-                if (num1 <= 10) {
-//                System.out.println(num1);
-                    a = true;
-                } else {
-                    System.out.println("Try number between 1 and 10");
-                }
-            }
-            System.out.println("Enter operation( +,-,*,/)");
-            operator = myNum.next();
-
-
-            System.out.println("Enter second number");
-            boolean b = false;
-            while (b == false) {
-                num2 = myNum.nextInt();
-                if (num2 <= 10) {
-                    if (num2==0){
-                        System.out.println("Error! You cant divide by 0.Try somethimg else");
-                    }else{
-                        b=true;
-                    }
-                } else {
-                    System.out.println("Try number between 1 and 10");
-                }
-            }
-            if (operator.equals("-")){
-                System.out.println(num1 - num2);
-            } else if (operator.equals("+")) {
-                System.out.println(num1 + num2);
-            } else if (operator.equals("*")) {
-                System.out.println(num1 * num2);
-            } else if (operator.equals( "/")) {
-                System.out.println(num1 / num2);
-            }
+            int a = Number.romanToArabic(romanNum1);
+            int b = Number.romanToArabic(romanNum2);
+            int result = calculate(a, op, b);
+            String resultAsRomanNumeral = Number.arabicToRoman(result);
+            System.out.println(romanNum1 + op + romanNum2 + "=" + resultAsRomanNumeral);
+            System.out.println(a + op + b + "=" + result);
 
         }
 
+    }
 }
-
-
