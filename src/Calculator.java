@@ -20,16 +20,14 @@ class Calculator {
     }
 
     public static int askForNumber(Scanner scanner, String msg) {
-        boolean stop = false;
         do {
             System.out.print(msg);
             int a = scanner.nextInt();
             if (a > 0 && a <= 10) {
                 return a;
             }
-        } while (!stop);
+        } while (true);
 
-        return 0;
     }
 
     public static String askForOperation(Scanner scanner, String msg) {
@@ -79,7 +77,6 @@ class Calculator {
             String resultAsRomanNumeral = Number.arabicToRoman(result);
             System.out.println(romanNum1 + op + romanNum2 + "=" + resultAsRomanNumeral);
             System.out.println(a + op + b + "=" + result);
-
         }
 
     }
